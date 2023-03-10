@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="SexPlugin:jar">
+    <output-path>$USER_HOME$/mc_servers/tests/plugins</output-path>
+    <root id="archive" name="SexPlugin.jar">
+      <element id="module-output" name="SexPlugin" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.8.20-RC/kotlin-stdlib-1.8.20-RC.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.6.4/kotlinx-coroutines-core-jvm-1.6.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-client-core-jvm/2.2.4/ktor-client-core-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-client-cio-jvm/2.2.4/ktor-client-cio-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-utils-jvm/2.2.4/ktor-utils-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-events-jvm/2.2.4/ktor-events-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-http-cio-jvm/2.2.4/ktor-http-cio-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-http-jvm/2.2.4/ktor-http-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-io-jvm/2.2.4/ktor-io-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-network-jvm/2.2.4/ktor-network-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-network-tls-jvm/2.2.4/ktor-network-tls-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-serialization-jvm/2.2.4/ktor-serialization-jvm-2.2.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
