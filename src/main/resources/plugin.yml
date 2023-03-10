@@ -1,0 +1,4 @@
+name: SexPlugin
+version: '${project.version}'
+main: spectrum.sexplugin.SexPlugin
+api-version: 1.19
