@@ -1,48 +1,38 @@
 package spectrum.sexplugin
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import spectrum.sexplugin.menu.MenuModule
 import spectrum.sexplugin.particles.ParticlesModule
-import kotlin.concurrent.thread
+import java.util.concurrent.Executors
+import kotlin.time.Duration
 
 class SexPlugin : JavaPlugin() {
     companion object {
-        lateinit var coroutinesScope: CoroutineScope
+        private val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
+        lateinit var coroutineScope: CoroutineScope
         private set
 
         lateinit var plugin: SexPlugin
         private set
     }
 
-    private var isRunning = false
-    private val coroutinesThread = thread(start = false) {
-        runBlocking {
-            coroutinesScope = this
-            launch {
-                while (isRunning) { delay( 5000 )}
-            }
-            logger.info("Coroutines thread stop work")
-        }
-    }
-
     override fun onEnable() {
-        isRunning = true
-        coroutinesThread.start()
-        logger.info("Start coroutines thread")
         plugin = this
+        CoroutineScope(dispatcher).launch {
+            supervisorScope {
+                coroutineScope = this@supervisorScope
+                delay(Duration.INFINITE)
+            }
+        }
 
         registerEvents()
         init()
     }
 
     override fun onDisable() {
-        isRunning = false
-        logger.info("Stop coroutines thread")
+        dispatcher.cancel()
     }
 
     fun registerEventListener(listener: Listener) {
