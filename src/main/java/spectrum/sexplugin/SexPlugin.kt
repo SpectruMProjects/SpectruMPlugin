@@ -11,6 +11,8 @@ import kotlin.time.Duration
 class SexPlugin : JavaPlugin() {
     companion object {
         private val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
+        private lateinit var mainScope: CoroutineScope
+
         lateinit var coroutineScope: CoroutineScope
         private set
 
@@ -21,6 +23,7 @@ class SexPlugin : JavaPlugin() {
     override fun onEnable() {
         plugin = this
         CoroutineScope(dispatcher).launch {
+            mainScope = this
             supervisorScope {
                 coroutineScope = this@supervisorScope
                 delay(Duration.INFINITE)
@@ -32,7 +35,10 @@ class SexPlugin : JavaPlugin() {
     }
 
     override fun onDisable() {
+        mainScope.cancel()
         dispatcher.cancel()
+        dispatcher.close()
+        Thread.sleep(100)
     }
 
     fun registerEventListener(listener: Listener) {
