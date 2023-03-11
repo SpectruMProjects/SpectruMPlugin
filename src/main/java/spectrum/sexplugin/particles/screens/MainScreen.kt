@@ -8,4 +8,8 @@ fun CreateMenuContext.particlesScreen() {
         name("Партиклы")
         uri("/particles/")
     }
+
+    item(Material.ENDER_CHEST, position(1)) {
+        uri("/ender-chest")
+    }
 }

@@ -6,4 +6,8 @@ class MainController {
     fun index(player: Player) {
         player.sendMessage("Particles!")
     }
+
+    fun ender(player: Player) {
+        player.openInventory(player.enderChest)
+    }
 }

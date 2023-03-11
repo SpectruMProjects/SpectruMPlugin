@@ -4,7 +4,11 @@ import spectrum.sexplugin.menu.route
 import spectrum.sexplugin.particles.controllers.MainController
 
 fun registerRoutes(controller: MainController) {
-    route("Партиклы", "/particles/") { uri, _, player, _ ->
+    route("/particles/") {
         controller.index(player)
+    }
+
+    route("/ender-chest") {
+        controller.ender(player)
     }
 }

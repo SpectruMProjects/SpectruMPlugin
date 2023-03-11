@@ -10,12 +10,19 @@ import org.bukkit.persistence.PersistentDataType
 import spectrum.sexplugin.SexPlugin
 import java.net.URI
 
+data class ClickContext(
+    val uri: URI,
+    val item: ItemStack,
+    val player: Player,
+    val inventory: Inventory,
+    val clickType: ClickType
+)
 
-typealias ClickHandler = (uri: URI, item: ItemStack, player: Player, inventory: Inventory) -> Unit
+typealias ClickHandler = ClickContext.() -> Unit
 
 object MenuService {
     private val playersWithOpenInventories = mutableMapOf<String, Inventory>()
-    private val clickHandles = mutableMapOf<Pair<String, URI>, ClickHandler>()
+    private val clickHandles = mutableMapOf<URI, ClickHandler>()
 
     fun onPlayerOpenInventory(inventory: Inventory, player: String) { playersWithOpenInventories[player] = inventory }
     fun onPlayerCloseInventory(player: String) { playersWithOpenInventories.remove(player) }
@@ -28,29 +35,27 @@ object MenuService {
         whoClicked: String,
         clickType: ClickType
     ): Boolean {
+        if (inventoryName != "Меню") return false
+
         val player = Bukkit.getPlayer(whoClicked) ?: return false
         if (!playersWithOpenInventories.containsKey(whoClicked)) return false
 
-        if (item?.query == null) return true
+        val itemURI = item?.query?.let { URI(it) }
 
-        clickHandles.forEach { (inventoryName_Query, handler) ->
-            if (inventoryName.lowercase() != inventoryName_Query.first) return@forEach
+        if (itemURI != null) {
+            clickHandles.forEach { (uri, handler) ->
+                if (uri.path != itemURI.path) return@forEach
 
-            val itemURI = item.query?.let { URI(it) } ?: return@forEach
-            if (inventoryName_Query.second.path != itemURI?.path) return@forEach
-
-            handler(itemURI, item, player, inventory)
-            return true
+                handler(ClickContext(itemURI, item, player, inventory, clickType))
+                return true
+            }
         }
 
-        return true
+        return false
     }
 
-    fun addClickListener(inventoryName: String, query: String, handler: ClickHandler) {
-        clickHandles[inventoryName.lowercase() to URI(query)] = handler
-    }
-    fun removeClickListener(inventoryName: String, query: String) {
-        clickHandles.remove(inventoryName to URI(query))
+    fun addClickListener(query: String, handler: ClickHandler) {
+        clickHandles[URI(query)] = handler
     }
     fun removeClickListener(handler: ClickHandler) {
         val inventoryName = clickHandles.toList().find { it.second == handler }?.first ?: return
@@ -72,6 +77,6 @@ var ItemStack.query: String?
         }
     }
 
-fun route(inventoryName: String, query: String, handler: ClickHandler) {
-    MenuService.addClickListener(inventoryName, query, handler)
+fun route(query: String, handler: ClickHandler) {
+    MenuService.addClickListener(query, handler)
 }

@@ -40,11 +40,10 @@ fun CreateItemContext.position(x: Int, y: Int) = Position(x, y, (y * size.width)
 
 class CreateMenuContext(val inventory: Inventory, val size: InventorySize) {}
 fun createMenu(
-    name: String,
     size: InventorySize = InventorySize.LARGE_CHEST,
     builder: CreateMenuContext.() -> Unit
 ): Inventory {
-    return Bukkit.createInventory(null, size.size, Component.text(name)).apply {
+    return Bukkit.createInventory(null, size.size, Component.text("Меню")).apply {
         builder(CreateMenuContext(this, size))
     }
 }

@@ -11,7 +11,7 @@ class OpenParticlesMenuCommand: CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) return true
 
-        sender.openInventory(createMenu("Партиклы") {
+        sender.openInventory(createMenu {
           particlesScreen()
         })
 
