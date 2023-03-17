@@ -3,10 +3,11 @@ package spectrum.sexplugin
 import kotlinx.coroutines.*
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
+import org.bukkit.plugin.PluginLogger
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import spectrum.sexplugin.menu.MenuModule
-import spectrum.sexplugin.particles.ParticlesModule
+import spectrum.sexplugin.whitelist.WhitelistModule
 import kotlin.coroutines.CoroutineContext
 
 class SexPlugin : JavaPlugin() {
@@ -24,8 +25,10 @@ class SexPlugin : JavaPlugin() {
         private set
 
         lateinit var plugin: SexPlugin
-            private set
+        private set
 
+        lateinit var logger: PluginLogger
+        private set
     }
 
     override fun onEnable() {
@@ -53,7 +56,7 @@ class SexPlugin : JavaPlugin() {
     }
 
     private fun init() {
-        ParticlesModule.onInit(this)
+        WhitelistModule.init(this)
     }
 }
 
