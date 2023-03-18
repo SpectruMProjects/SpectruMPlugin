@@ -1,5 +1,7 @@
 package spectrum.sexplugin
 
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
 import kotlinx.coroutines.*
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
@@ -21,7 +23,7 @@ class SexPlugin : JavaPlugin() {
         lateinit var mainScope: CoroutineScope
         private set
 
-        lateinit var defaultScope: CoroutineScope
+        lateinit var asyncScope: CoroutineScope
         private set
 
         lateinit var plugin: SexPlugin
@@ -33,7 +35,7 @@ class SexPlugin : JavaPlugin() {
         MainDispatcher = MainThreadDispatcher(this)
         DefaultDispatcher = PluginDispatcher(this)
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
-        defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
+        asyncScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
         registerEvents()
         init()
     }
