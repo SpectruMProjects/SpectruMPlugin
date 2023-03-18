@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="SexPlugin:jar">
-    <output-path>$USER_HOME$/mc_servers/tests/plugins</output-path>
+    <output-path>$PROJECT_DIR$</output-path>
     <root id="archive" name="SexPlugin.jar">
       <element id="module-output" name="SexPlugin" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.8.20-RC/kotlin-stdlib-1.8.20-RC.jar" path-in-jar="/" />
