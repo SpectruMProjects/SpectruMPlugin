@@ -7,13 +7,11 @@ import io.ktor.client.request.*
 import spectrum.sexplugin.SexPlugin
 
 class Api(
-    backHost: String,
-    backPort: Int
+    backUrl: String
 ) {
     private val client = HttpClient(CIO) {
         defaultRequest {
-            host = backHost
-            port = backPort
+            url(backUrl)
         }
     }
 
