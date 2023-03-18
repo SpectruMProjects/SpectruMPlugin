@@ -5,7 +5,6 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.models.Statistics
-import kotlin.random.Random
 
 class StatisticsServiceActor(
     private val service: StatisticsService,
@@ -14,7 +13,7 @@ class StatisticsServiceActor(
     private var actor: SendChannel<Msg>? = null
     @OptIn(ExperimentalCoroutinesApi::class)
     val isActive
-        get() = actor?.isClosedForSend == true
+        get() = actor?.isClosedForSend == false
 
     init {
         start()
@@ -26,7 +25,6 @@ class StatisticsServiceActor(
     fun start() {
         if (isActive) return
         actor = SexPlugin.scope.statisticsActor(service)
-        logger.info("${this.javaClass.simpleName} starting...")
     }
 
     /**
@@ -35,7 +33,6 @@ class StatisticsServiceActor(
     fun stop() {
         actor?.close()
         actor = null
-        logger.info("${this.javaClass.simpleName} stopped")
     }
 
     /**
@@ -70,11 +67,15 @@ private sealed interface Msg {
 
 @OptIn(ObsoleteCoroutinesApi::class)
 private fun CoroutineScope.statisticsActor(service: StatisticsService) = actor<Msg> {
+    val logger = SexPlugin.plugin.logger
+
+    logger.info("[Statistics Actor] start")
     try {
         for (msg in channel) {
             when(msg) {
                 is Msg.Kill -> {
                     val stats = service.kill(msg.userId, msg.reason)
+                    logger.info("[Statistics Actor] killed ${msg.userId} by ${msg.reason}")
                     msg.result.complete(stats)
                 }
                 is Msg.Find -> {
@@ -83,10 +84,12 @@ private fun CoroutineScope.statisticsActor(service: StatisticsService) = actor<M
                 }
             }
         }
+        logger.info("[Statistics Actor] stopped")
     } catch (e: CancellationException) {
-        SexPlugin.plugin.logger.info("Statistics actor cancelled")
+        logger.info("[Statistics Actor] cancelled")
         throw e
     } catch (e: Exception) {
-        SexPlugin.plugin.logger.warning(e.toString())
+        logger.info("[Statistics Actor] stopped by $e")
+        logger.warning(e.toString())
     }
 }
