@@ -1,6 +1,5 @@
 package spectrum.sexplugin
 
-import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
 import kotlinx.coroutines.*
 import org.bukkit.event.Listener
@@ -17,32 +16,39 @@ class SexPlugin : JavaPlugin() {
         lateinit var MainDispatcher: MainCoroutineDispatcher
         private set
 
-        lateinit var DefaultDispatcher: CoroutineDispatcher
+        lateinit var AsyncDispatcher: CoroutineDispatcher
         private set
 
-        lateinit var mainScope: CoroutineScope
-        private set
-
-        lateinit var asyncScope: CoroutineScope
+        lateinit var scope: CoroutineScope
         private set
 
         lateinit var plugin: SexPlugin
         private set
     }
 
+    private val client by lazy {
+        MongoClients.create(config.getString("connections-mongo-url", "mongodb://localhost") ?: "mongodb://localhost")
+    }
+    val db by lazy {
+        client.getDatabase(config.getString("connections-mongo-database", "devdb") ?: "devdb")
+    }
+
     override fun onEnable() {
         plugin = this
         MainDispatcher = MainThreadDispatcher(this)
-        DefaultDispatcher = PluginDispatcher(this)
-        mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
-        asyncScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
+        AsyncDispatcher = if (config.getBoolean("coroutines-useTasks", false))
+             PluginDispatcher(this)
+        else Dispatchers.Default
+
+        scope = CoroutineScope(AsyncDispatcher) + SupervisorJob()
         registerEvents()
         init()
     }
 
     override fun onDisable() {
+        scope.cancel()
         MainDispatcher.cancel()
-        DefaultDispatcher.cancel()
+        client.close()
         Thread.sleep(100)
     }
 
