@@ -13,11 +13,9 @@ object HardcoreModule {
     private set
 
     fun init(plugin: SexPlugin) {
-        val repo = MongoStatisticsRepository(plugin.db.getCollection("statistics", Statistics::class.java))
-        val service = StatisticsService(repo)
-        HardcoreModule.service = StatisticsServiceActor(service)
+        service = StatisticsServiceActor()
 
         plugin.getCommand("hardcore-stats-service-restart")
-            ?.setExecutor(StatisticsServiceRestartCommand(HardcoreModule.service))
+            ?.setExecutor(StatisticsServiceRestartCommand(service))
     }
 }
