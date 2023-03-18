@@ -5,8 +5,10 @@ import java.util.Date
 
 data class Death(
     val at: Date,
-    val reason: String
-)
+    val reason: String? = null
+) {
+    constructor(at: Long, reason: String? = null): this(Date(at), reason)
+}
 
 /**
  * @property timeOnServer Время проведенное игроком на сервере, измеряется в миллисекнудах
@@ -18,8 +20,9 @@ data class Statistics(
 ) {
     val lastDeathDate: Date? = deaths.maxByOrNull { it.at }?.at
     val respawnAt: Date? = lastDeathDate?.let { respawnAt(timeOnServer, it) }
+    fun isAlive(now: Date = Date()) = now > (respawnAt ?: Date(0))
 
-    fun kill(reason: String) = kill(Death(Date(), reason))
+    fun kill(reason: String, at: Date = Date()) = kill(Death(at, reason))
     fun kill(death: Death): Statistics {
         if (Date() < (respawnAt ?: Date(0)))
             throw UserCantBeKilledBeforeRespawnException()
