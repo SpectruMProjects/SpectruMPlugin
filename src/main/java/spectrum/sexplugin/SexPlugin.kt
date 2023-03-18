@@ -15,7 +15,7 @@ class SexPlugin : JavaPlugin() {
     companion object {
         lateinit var MainDispatcher: MainCoroutineDispatcher
         private set
-        lateinit var Config: FileConfiguration;
+
         lateinit var DefaultDispatcher: CoroutineDispatcher
         private set
 
@@ -27,9 +27,6 @@ class SexPlugin : JavaPlugin() {
 
         lateinit var plugin: SexPlugin
         private set
-
-        lateinit var logger: PluginLogger
-        private set
     }
 
     override fun onEnable() {
@@ -38,8 +35,6 @@ class SexPlugin : JavaPlugin() {
         DefaultDispatcher = PluginDispatcher(this)
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
         defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
-        Config = this.config;
-        Config.addDefault("whitelist-active", true)
         registerEvents()
         init()
     }
