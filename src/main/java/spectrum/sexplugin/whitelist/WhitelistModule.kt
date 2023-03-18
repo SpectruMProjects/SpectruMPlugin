@@ -7,7 +7,7 @@ import spectrum.sexplugin.whitelist.services.WhitelistService
 object WhitelistModule {
     fun init(plugin: SexPlugin) {
         val api = Api("localhost", 5168)
-        val service = WhitelistService(api)
+        val service = WhitelistService.Fake()
         val listener = JoinListener(service)
 
         plugin.registerEventListener(listener)
