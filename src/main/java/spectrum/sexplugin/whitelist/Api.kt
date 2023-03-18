@@ -17,8 +17,6 @@ class Api(
 
     suspend fun hasPlayerAccess(username: String): Boolean {
         val response = client.get("/Hardcore/access/$username")
-        return if(SexPlugin.Config.getBoolean("whitelist-active")) {
-            response.status.value == 200
-        } else true
+        return response.status.value == 200
     }
 }
