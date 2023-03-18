@@ -33,13 +33,14 @@ class SexPlugin : JavaPlugin() {
     }
 
     override fun onEnable() {
+       // this.config.addDefault("whitelist-active", true)
+        this.saveDefaultConfig()
+        Config = this.config
         plugin = this
         MainDispatcher = MainThreadDispatcher(this)
         DefaultDispatcher = PluginDispatcher(this)
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
         defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
-        Config = this.config;
-        Config.addDefault("whitelist-active", true)
         registerEvents()
         init()
     }
