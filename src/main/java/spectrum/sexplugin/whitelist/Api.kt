@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import spectrum.sexplugin.SexPlugin
 
 class Api(
     backHost: String,
@@ -18,6 +19,8 @@ class Api(
 
     suspend fun hasPlayerAccess(username: String): Boolean {
         val response = client.get("/Hardcore/access/$username")
-        return response.status.value == 200
+        return if(SexPlugin.Config.getBoolean("whitelist-active")) {
+            response.status.value == 200
+        } else true
     }
 }

@@ -1,6 +1,7 @@
 package spectrum.sexplugin
 
 import kotlinx.coroutines.*
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginLogger
@@ -14,7 +15,7 @@ class SexPlugin : JavaPlugin() {
     companion object {
         lateinit var MainDispatcher: MainCoroutineDispatcher
         private set
-
+        lateinit var Config: FileConfiguration;
         lateinit var DefaultDispatcher: CoroutineDispatcher
         private set
 
@@ -37,6 +38,8 @@ class SexPlugin : JavaPlugin() {
         DefaultDispatcher = PluginDispatcher(this)
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
         defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
+        Config = this.config;
+        Config.addDefault("whitelist-active", true)
         registerEvents()
         init()
     }
