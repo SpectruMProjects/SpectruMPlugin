@@ -1,14 +1,12 @@
 package spectrum.sexplugin
 
 import kotlinx.coroutines.*
-import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import spectrum.sexplugin.menu.MenuModule
 import spectrum.sexplugin.whitelist.WhitelistModule
-import java.util.logging.Logger
 import kotlin.coroutines.CoroutineContext
 
 class SexPlugin : JavaPlugin() {
@@ -23,14 +21,10 @@ class SexPlugin : JavaPlugin() {
         private set
         lateinit var plugin: JavaPlugin
         private set
-        lateinit var Config: FileConfiguration
-        private set
-        lateinit var mainlogger: Logger
     }
 
     override fun onEnable() {
         plugin = this
-        mainlogger = plugin.getLogger()
         MainDispatcher = MainThreadDispatcher(this)
         DefaultDispatcher = PluginDispatcher(this)
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
@@ -49,13 +43,6 @@ class SexPlugin : JavaPlugin() {
     private fun initConfig()
     {
         saveDefaultConfig()
-        Config = config
-//        val file = File(dataFolder.name + File.pathSeparator + "config.yml")
-//        if(!file.exists())
-//        {
-//            saveResource("config.yml", true)
-//        }
-//        Config = YamlConfiguration.loadConfiguration(file)
     }
     fun registerEventListener(listener: Listener) {
         server.pluginManager.registerEvents(listener, this)
