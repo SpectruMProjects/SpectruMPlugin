@@ -1,12 +1,10 @@
 package spectrum.sexplugin
 
-import com.mongodb.client.MongoClients
 import kotlinx.coroutines.*
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
-import spectrum.sexplugin.hardcore.HardcoreModule
 import spectrum.sexplugin.menu.MenuModule
 import spectrum.sexplugin.whitelist.WhitelistModule
 import kotlin.coroutines.CoroutineContext
@@ -15,43 +13,37 @@ class SexPlugin : JavaPlugin() {
     companion object {
         lateinit var MainDispatcher: MainCoroutineDispatcher
         private set
-
-        lateinit var AsyncDispatcher: CoroutineDispatcher
+        lateinit var DefaultDispatcher: CoroutineDispatcher
         private set
-
-        lateinit var scope: CoroutineScope
+        lateinit var mainScope: CoroutineScope
         private set
-
-        lateinit var plugin: SexPlugin
+        lateinit var defaultScope: CoroutineScope
         private set
-    }
-
-    private val client by lazy {
-        MongoClients.create(config.getString("connections-mongo-url", "mongodb://localhost") ?: "mongodb://localhost")
-    }
-    val db by lazy {
-        client.getDatabase(config.getString("connections-mongo-database", "devdb") ?: "devdb")
+        lateinit var plugin: JavaPlugin
+        private set
     }
 
     override fun onEnable() {
         plugin = this
         MainDispatcher = MainThreadDispatcher(this)
-        AsyncDispatcher = if (config.getBoolean("coroutines-useTasks", false))
-             PluginDispatcher(this)
-        else Dispatchers.Default
-
-        scope = CoroutineScope(AsyncDispatcher) + SupervisorJob()
+        DefaultDispatcher = PluginDispatcher(this)
+        mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
+        defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
+        initConfig()
         registerEvents()
         init()
     }
 
     override fun onDisable() {
-        scope.cancel()
         MainDispatcher.cancel()
-        client.close()
+        DefaultDispatcher.cancel()
         Thread.sleep(100)
     }
 
+    private fun initConfig()
+    {
+        saveDefaultConfig()
+    }
     fun registerEventListener(listener: Listener) {
         server.pluginManager.registerEvents(listener, this)
     }
@@ -62,7 +54,6 @@ class SexPlugin : JavaPlugin() {
 
     private fun init() {
         WhitelistModule.init(this)
-        HardcoreModule.init(this)
     }
 }
 

@@ -6,15 +6,15 @@ import spectrum.sexplugin.whitelist.services.WhitelistService
 
 object WhitelistModule {
     fun init(plugin: SexPlugin) {
-        plugin.config.addDefault("whitelist-active", true)
-
-        val api = Api("http://localhost:5168")
-        val service = if (plugin.config.getBoolean("whitelist-active", false))
-                 WhitelistService.Api(api)
-            else WhitelistService.Fake()
-        plugin.logger.info("Take ${service::class.simpleName} whitelist service")
+        val logger = plugin.getLogger()
+        val url = plugin.config.getString("url")!!
+        val api = Api(url)
+        val service = WhitelistService.Api(api)
         val listener = JoinListener(service)
-
+        if(!plugin.config.getBoolean("whitelist-active"))
+            logger.warning("Whitelist disabled from config!")
+        else logger.info("API URL is: $url")
         plugin.registerEventListener(listener)
+
     }
 }
