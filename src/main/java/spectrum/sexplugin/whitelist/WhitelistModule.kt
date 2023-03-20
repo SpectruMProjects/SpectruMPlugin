@@ -15,6 +15,5 @@ object WhitelistModule {
             logger.warning("Whitelist disabled from config!")
         else logger.info("API URL is: $url")
         plugin.registerEventListener(listener)
-
     }
 }

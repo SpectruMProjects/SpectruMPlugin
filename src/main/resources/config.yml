@@ -1,2 +1,4 @@
 whitelist-active: true
+mongodb-url: mongodb://localhost:27017
+mongodb-name: devdb
 url: http://localhost:5168

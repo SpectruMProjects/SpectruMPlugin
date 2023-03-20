@@ -34,7 +34,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.guava:guava:31.1-jre" level="project" />
@@ -49,7 +49,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: it.unimi.dsi:fastutil:8.5.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.17.1" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.8.0-beta4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.maven:maven-resolver-provider:3.8.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.maven:maven-model:3.8.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.maven:maven-model-builder:3.8.5" level="project" />
@@ -98,6 +97,9 @@
     <orderEntry type="library" name="Maven: io.ktor:ktor-network-jvm:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-websockets-jvm:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: io.ktor:ktor-network-tls-jvm:2.2.4" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.4.6" level="project" />
+    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.4.6" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-sync:4.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:bson:4.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:4.9.0" level="project" />

@@ -5,7 +5,7 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
-import spectrum.sexplugin.menu.MenuModule
+import spectrum.sexplugin.hardcore.HardcoreModule
 import spectrum.sexplugin.whitelist.WhitelistModule
 import kotlin.coroutines.CoroutineContext
 
@@ -30,14 +30,14 @@ class SexPlugin : JavaPlugin() {
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
         defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
         initConfig()
-        registerEvents()
         init()
     }
 
     override fun onDisable() {
         MainDispatcher.cancel()
         DefaultDispatcher.cancel()
-        Thread.sleep(100)
+        HardcoreModule.mongoClient.close()
+        Thread.sleep(50)
     }
 
     private fun initConfig()
@@ -48,12 +48,9 @@ class SexPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(listener, this)
     }
 
-    private fun registerEvents() {
-        MenuModule.eventListeners.forEach(::registerEventListener)
-    }
-
     private fun init() {
         WhitelistModule.init(this)
+        HardcoreModule.init(this)
     }
 }
 
