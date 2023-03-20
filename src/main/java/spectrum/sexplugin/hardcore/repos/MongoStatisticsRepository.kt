@@ -12,13 +12,13 @@ class MongoStatisticsRepository(
     private val collection: MongoCollection<Statistics>
 ): StatisticsRepository {
     override suspend fun find(userId: String): Statistics? {
-        return SexPlugin.scope.async(Dispatchers.IO) {
+        return SexPlugin.defaultScope.async(Dispatchers.IO) {
             collection.find(eq("userId", userId)).first()
         }.await()
     }
 
     override suspend fun save(statistics: Statistics) {
-        SexPlugin.scope.launch(Dispatchers.IO) {
+        SexPlugin.defaultScope.launch(Dispatchers.IO) {
             val current = collection.findOneAndReplace(
                 eq("userId", statistics.userId),
                 statistics
