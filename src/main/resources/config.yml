@@ -1,4 +1,4 @@
 whitelist-active: true
 url: http://localhost:5168
-mongo-url: mongo-db://localhost:27017
+mongo-url: mongodb://lisoveliy:@MongoAdminAccount1488@localhost:27017
 mongo-db: devdb

@@ -32,6 +32,8 @@
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1" />
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.14.1" />
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.14.1" />
+      <element id="library" level="project" name="Maven: org.litote.jackson:jackson-module-loader:0.4.0" />
+      <element id="library" level="project" name="Maven: org.litote:kreflect:1.0.0" />
     </root>
   </artifact>
 </component>
