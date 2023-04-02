@@ -15,6 +15,23 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-network-jvm/2.2.4/ktor-network-jvm-2.2.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-network-tls-jvm/2.2.4/ktor-network-tls-jvm-2.2.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/ktor/ktor-serialization-jvm/2.2.4/ktor-serialization-jvm-2.2.4.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Maven: de.undercouch:bson4jackson:2.13.1" />
+      <element id="library" level="project" name="Maven: org.mongodb:bson-record-codec:4.8.0" />
+      <element id="library" level="project" name="Maven: org.mongodb:bson:4.8.0" />
+      <element id="library" level="project" name="Maven: org.mongodb:mongodb-driver-core:4.8.0" />
+      <element id="library" level="project" name="Maven: org.mongodb:mongodb-driver-sync:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-core:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-data:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-id-jackson:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-id:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-jackson-mapping:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-property:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo-shared:4.8.0" />
+      <element id="library" level="project" name="Maven: org.litote.kmongo:kmongo:4.8.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.14.1" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.14.1" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.14.1" />
     </root>
   </artifact>
 </component>

@@ -9,8 +9,5 @@
         <module name="SexPlugin" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SexPlugin" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

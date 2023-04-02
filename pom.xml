@@ -56,7 +56,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>17   </jvmTarget>
+                    <jvmTarget>17</jvmTarget>
                 </configuration>
             </plugin>
             <plugin>
@@ -105,13 +105,20 @@
     </repositories>
 
     <dependencies>
+        <!-- Paper library -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- MongoDB library -->
+        <dependency>
+            <groupId>org.litote.kmongo</groupId>
+            <artifactId>kmongo</artifactId>
+            <version>4.8.0</version>
+        </dependency>
+        <!-- Kotlin required dependencies -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -123,7 +130,6 @@
             <version>1.6.4</version>
             <type>pom</type>
         </dependency>
-
         <dependency>
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-core-jvm</artifactId>
@@ -134,13 +140,6 @@
             <artifactId>ktor-client-cio-jvm</artifactId>
             <version>2.2.4</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.9.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test</artifactId>
