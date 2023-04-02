@@ -8,15 +8,11 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import org.litote.kmongo.MongoOperator
-import org.litote.kmongo.find
 import org.litote.kmongo.findOne
 import org.litote.kmongo.replaceOneById
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.models.Stat
 import spectrum.sexplugin.hardcore.models.UserStatistics
-import java.sql.Time
-import java.time.LocalTime
 
 class HardcoreListener : Listener {
     @EventHandler
@@ -51,6 +47,7 @@ class HardcoreListener : Listener {
         }
         user = updateTimeOnServer(user)
         user = updateLastServerTime(user)
+        @Suppress("DEPRECATION")
         user.stats.add(Stat(user.timeOnServer / 2, event.deathMessage!!))
         Mongo.UserStatistics.replaceOneById(user._id, user)
     }
@@ -58,7 +55,7 @@ class HardcoreListener : Listener {
     fun onPlayerQuit(event: PlayerQuitEvent)
     {
         var user = Mongo.UserStatistics.findOne(eq("username",event.player.name))
-        if(event.player.gameMode == GameMode.SPECTATOR){
+        if(event.player.gameMode == GameMode.SPECTATOR || event.player.isDead){
             user = updateLastServerTime(user!!)
             Mongo.UserStatistics.replaceOneById(user._id, user)
         }
