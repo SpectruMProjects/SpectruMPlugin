@@ -4,6 +4,9 @@ import com.mongodb.client.model.Filters.eq
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.ComponentIteratorFlag
+import net.kyori.adventure.text.ComponentIteratorType
+import net.kyori.adventure.text.TranslatableComponent
 import net.kyori.adventure.title.Title
 import org.bson.types.ObjectId
 import org.bukkit.*
@@ -18,6 +21,7 @@ import org.litote.kmongo.replaceOneById
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.models.Stat
 import spectrum.sexplugin.hardcore.models.UserStatistics
+import java.awt.TextComponent
 import java.time.Duration
 
 class HardcoreListener : Listener {
@@ -32,7 +36,7 @@ class HardcoreListener : Listener {
                 )
             )
         } else {
-            if (System.currentTimeMillis() > user.stats.last().timeToRespawn && user.lastServerTime < user.stats.last().timeToRespawn) {
+            if (System.currentTimeMillis() > user.stats.last().timeToRespawn && user.lastServerTime < user.stats.last().timeToRespawn && event.player.gameMode == GameMode.SPECTATOR) {
                 spawnPlayer(event.player)
             }
             if (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
@@ -59,10 +63,28 @@ class HardcoreListener : Listener {
         }
         user = updateTimeOnServer(user)
         user = updateLastServerTime(user)
-        @Suppress("DEPRECATION") user.stats.add(
+        val death = event.deathMessage()!!
+        var deathReason = ""
+        var deathIssuer = ""
+            death.iterator(
+                ComponentIteratorType.DEPTH_FIRST,
+                ComponentIteratorFlag.INCLUDE_TRANSLATABLE_COMPONENT_ARGUMENTS,
+                ComponentIteratorFlag.INCLUDE_HOVER_SHOW_TEXT_COMPONENT).forEach {
+                when (it) {
+                    is TranslatableComponent -> {
+                        deathReason = it.key()
+                    }
+                    is TextComponent -> {
+                        deathIssuer = it.text
+                    }
+                }
+            }
+        user.stats.add(
             Stat(
                 user.timeOnServer / 2 + System.currentTimeMillis(),
-                event.deathMessage!!
+                System.currentTimeMillis(),
+                deathReason,
+                deathIssuer
             )
         )
         Mongo.UserStatistics.replaceOneById(user._id, user)
@@ -90,23 +112,27 @@ class HardcoreListener : Listener {
     }
 
     private fun spawnPlayer(player: Player) {
-        player.teleport(Bukkit.getWorld("World")!!.spawnLocation)
-        player.gameMode = GameMode.SURVIVAL
+        if(player.gameMode == GameMode.SPECTATOR) {
+            player.teleport(Bukkit.getWorld("World")!!.spawnLocation)
+            player.gameMode = GameMode.SURVIVAL
+        }
     }
 
     private fun respawnTask(user: UserStatistics, player: Player) {
         SexPlugin.defaultScope.launch {
             var message = false
-            val startTime = System.currentTimeMillis()
+            val startTime = user.stats.last().deathTime
+            var bartext = "До возрождения: " + DateUtil.genStringTime(user.stats.last().timeToRespawn - System.currentTimeMillis())
             var bar = net.kyori.adventure.bossbar.BossBar.bossBar(
-                Component.text("До возрождения: " + (user.stats.last().timeToRespawn - System.currentTimeMillis())),
-                1.0f,
+                Component.text(bartext),
+                0.0f,
                 net.kyori.adventure.bossbar.BossBar.Color.GREEN,
                 net.kyori.adventure.bossbar.BossBar.Overlay.PROGRESS
             )
             while (System.currentTimeMillis() < user.stats.last().timeToRespawn && this.isActive) {
+                val progress = ((user.stats.last().timeToRespawn - System.currentTimeMillis()).toFloat() / (user.stats.last().timeToRespawn - startTime).toFloat())
                 Thread.sleep(100)
-                player.sendMessage(((user.stats.last().timeToRespawn - System.currentTimeMillis()) / (System.currentTimeMillis() - startTime)).toFloat().toString())
+                bartext = "До возрождения: " + DateUtil.genStringTime(user.stats.last().timeToRespawn - System.currentTimeMillis())
                 try {
                     if (!player.isDead) {
                         //Show title
@@ -121,8 +147,8 @@ class HardcoreListener : Listener {
                         }
                         player.hideBossBar(bar)
                         val newbar = net.kyori.adventure.bossbar.BossBar.bossBar(
-                            Component.text("До возрождения: " + (user.stats.last().timeToRespawn - System.currentTimeMillis())),
-                            1.0f,
+                            Component.text(bartext),
+                            progress,
                             net.kyori.adventure.bossbar.BossBar.Color.GREEN,
                             net.kyori.adventure.bossbar.BossBar.Overlay.PROGRESS
                         )

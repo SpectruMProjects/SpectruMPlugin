@@ -6,7 +6,7 @@
 
     <groupId>spectrum</groupId>
     <artifactId>SexPlugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-Pre-release</version>
     <packaging>jar</packaging>
 
     <name>SexPlugin</name>
