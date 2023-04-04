@@ -2,3 +2,8 @@ name: SexPlugin
 version: '${project.version}'
 main: spectrum.sexplugin.SexPlugin
 api-version: 1.19
+commands:
+  resettime:
+    description: Reset timeOnServer param for player
+    usage: /<command> <player>
+    permission: sexplugin.hardcorereset
