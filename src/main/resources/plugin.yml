@@ -7,3 +7,7 @@ commands:
     description: Reset timeOnServer param for player
     usage: /<command> <player>
     permission: sexplugin.hardcorereset
+  showstats:
+    description: Show statistics for player
+    usage: /<command> <player>
+    permission: sexplugin.hardcoreshowstats

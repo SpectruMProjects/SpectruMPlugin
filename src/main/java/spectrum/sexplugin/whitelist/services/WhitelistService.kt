@@ -18,7 +18,7 @@ interface WhitelistService {
         override fun onPlayerJoin(player: Player) {
             runBlocking {
                 if (!api.hasPlayerAccess(player.name)) {
-                    player.kick(Component.text("Сосать + лежать (зарегестрируйтесь на нешем сайте)"))
+                    player.kick(Component.text(SexPlugin.plugin.config.getString("kickstring")!!))
                     SexPlugin.plugin.logger.info("${player.name} не прошёл")
                 }
             }
