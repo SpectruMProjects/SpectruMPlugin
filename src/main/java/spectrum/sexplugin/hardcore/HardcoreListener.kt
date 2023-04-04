@@ -1,6 +1,7 @@
 package spectrum.sexplugin.hardcore
 
 import com.mongodb.client.model.Filters.eq
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
@@ -98,14 +99,14 @@ class HardcoreListener : Listener {
             var message = false
             val startTime = System.currentTimeMillis()
             var bar = net.kyori.adventure.bossbar.BossBar.bossBar(
-                Component.text("До возрождения: " + ( user.stats.last().timeToRespawn - System.currentTimeMillis())),
+                Component.text("До возрождения: " + (user.stats.last().timeToRespawn - System.currentTimeMillis())),
                 1.0f,
                 net.kyori.adventure.bossbar.BossBar.Color.GREEN,
                 net.kyori.adventure.bossbar.BossBar.Overlay.PROGRESS
             )
-            while (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
+            while (System.currentTimeMillis() < user.stats.last().timeToRespawn && this.isActive) {
                 Thread.sleep(100)
-                player.sendMessage(((user.stats.last().timeToRespawn - startTime) / (user.stats.last().timeToRespawn - System.currentTimeMillis())).toFloat().toString())
+                player.sendMessage(((user.stats.last().timeToRespawn - System.currentTimeMillis()) / (System.currentTimeMillis() - startTime)).toFloat().toString())
                 try {
                     if (!player.isDead) {
                         //Show title
@@ -113,7 +114,7 @@ class HardcoreListener : Listener {
                             val title = Title.title(
                                 Component.text(HardcoreModule.hardcoreConfig.getString("title")!!),
                                 Component.text(HardcoreModule.hardcoreConfig.getString("subtitle")!!),
-                                Title.Times.times(Duration.ofSeconds(3), Duration.ofSeconds(5), Duration.ofSeconds(3))
+                                Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(5), Duration.ofSeconds(1))
                             )
                             player.showTitle(title)
                             message = true
