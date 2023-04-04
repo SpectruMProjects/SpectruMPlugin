@@ -6,7 +6,6 @@ import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.commands.ResetTimeHandler
 import spectrum.sexplugin.hardcore.commands.ShowStatsHandler
 import spectrum.sexplugin.hardcore.models.DatabaseData
-import java.util.Dictionary
 
 object HardcoreModule {
     private lateinit var plugin: SexPlugin

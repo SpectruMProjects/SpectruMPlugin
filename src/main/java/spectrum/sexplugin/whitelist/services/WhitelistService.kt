@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 import spectrum.sexplugin.SexPlugin
 
 interface WhitelistService {
-    fun onPlayerJoin(player: Player): Unit
+    fun onPlayerJoin(player: Player)
 
     class Fake: WhitelistService {
         override fun onPlayerJoin(player: Player) {}
