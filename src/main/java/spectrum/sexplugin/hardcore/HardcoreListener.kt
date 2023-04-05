@@ -33,12 +33,12 @@ class HardcoreListener : Listener {
             SexPlugin.plugin.logger.warning("${event.player.name} not found, creating")
             Mongo.UserStatistics.insertOne(
                 UserStatistics(
-                    ObjectId.get(), event.player.name, 0, System.currentTimeMillis(), emptyList<Stat>().toMutableList()
+                    ObjectId.get(), event.player.name, 0, System.currentTimeMillis(), emptyList<Stat>().toMutableList(), false
                 )
             )
         } else {
             if (System.currentTimeMillis() > user.stats.last().timeToRespawn && user.lastServerTime < user.stats.last().timeToRespawn && event.player.gameMode == GameMode.SPECTATOR) {
-                spawnPlayer(event.player)
+                spawnPlayer(event.player, user)
             }
             if (System.currentTimeMillis() < user.stats.last().timeToRespawn && !event.player.isDead) {
                 respawnTask(user, event.player)
@@ -56,6 +56,12 @@ class HardcoreListener : Listener {
             event.player.gameMode = GameMode.SURVIVAL
             event.player.spawnAt(Location(Bukkit.getWorld(event.player.name), 0.0, 80.0, 0.0))
             return
+        }
+        //Не создаём новый если старый не закончился
+        if(user.stats.size > 0) {
+            if (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
+                return
+            }
         }
         user = updateTimeOnServer(user)
         user = updateLastServerTime(user)
@@ -90,16 +96,13 @@ class HardcoreListener : Listener {
     fun onPlayerRespawn(event: PlayerRespawnEvent)
     {
         val user = Mongo.UserStatistics.findOne(eq("username", event.player.name))
-
         if (user == null) {
             event.player.gameMode = GameMode.SURVIVAL
             event.player.spawnAt(Location(Bukkit.getWorld(event.player.name), 0.0, 80.0, 0.0))
             return
         }
-        if(user.stats.size > 0) {
-            if (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
-                return
-            }
+        if (user.isRespawningNow){
+            return
         }
         respawnTask(user, event.player)
     }
@@ -123,14 +126,19 @@ class HardcoreListener : Listener {
         return user.copy(lastServerTime = System.currentTimeMillis())
     }
 
-    private fun spawnPlayer(player: Player) {
+    private fun spawnPlayer(player: Player, user: UserStatistics) {
         if(player.gameMode == GameMode.SPECTATOR) {
             player.teleport(Bukkit.getWorld("World")!!.spawnLocation)
             player.gameMode = GameMode.SURVIVAL
         }
+        updateLastServerTime(user)
+        val newuser = user.copy(isRespawningNow = false)
+        Mongo.UserStatistics.replaceOneById(user._id, newuser)
     }
 
     private fun respawnTask(user: UserStatistics, player: Player) {
+        val newuser = user.copy(isRespawningNow = true)
+        Mongo.UserStatistics.replaceOneById(user._id, newuser)
         SexPlugin.defaultScope.launch {
             var message = false
             val startTime = user.stats.last().deathTime
@@ -175,7 +183,7 @@ class HardcoreListener : Listener {
             launch(SexPlugin.MainDispatcher) {
                 try {
                     player.hideBossBar(bar)
-                    spawnPlayer(player)
+                    spawnPlayer(player, newuser)
                 } catch (_: Exception) {
                 }
             }
