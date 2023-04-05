@@ -57,11 +57,6 @@ class HardcoreListener : Listener {
             event.player.spawnAt(Location(Bukkit.getWorld(event.player.name), 0.0, 80.0, 0.0))
             return
         }
-        if(user.stats.size > 0) {
-            if (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
-                return
-            }
-        }
         user = updateTimeOnServer(user)
         user = updateLastServerTime(user)
         val death = event.deathMessage()!!
@@ -95,10 +90,16 @@ class HardcoreListener : Listener {
     fun onPlayerRespawn(event: PlayerRespawnEvent)
     {
         val user = Mongo.UserStatistics.findOne(eq("username", event.player.name))
+
         if (user == null) {
             event.player.gameMode = GameMode.SURVIVAL
             event.player.spawnAt(Location(Bukkit.getWorld(event.player.name), 0.0, 80.0, 0.0))
             return
+        }
+        if(user.stats.size > 0) {
+            if (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
+                return
+            }
         }
         respawnTask(user, event.player)
     }
