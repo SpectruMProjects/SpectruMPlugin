@@ -1,4 +1,8 @@
+kickstring: Сосать + лежать (зарегистрируйтесь на нашем сайте)
 whitelist-active: true
-mongodb-url: mongodb://localhost:27017
-mongodb-name: devdb
-url: http://localhost:5168
+url: http://localhost:5001
+mongo-url: mongodb://lisoveliy:MongoAdminAccount1488@localhost:27017
+mongo-db: devdb
+hardcore:
+  title: §cYou are dead
+  subtitle: Not big surprise

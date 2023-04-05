@@ -3,9 +3,11 @@ version: '${project.version}'
 main: spectrum.sexplugin.SexPlugin
 api-version: 1.19
 commands:
-  hardcore-stats-service-restart:
-    usage:
-      /hardcore-stats-service-restart
-    aliases:
-      - h-s-s-r
-    description: Restarting hardcore service
+  resettime:
+    description: Reset timeOnServer param for player
+    usage: /<command> <player>
+    permission: sexplugin.hardcorereset
+  showstats:
+    description: Show statistics for player
+    usage: /<command> <player>
+    permission: sexplugin.hardcoreshowstats
