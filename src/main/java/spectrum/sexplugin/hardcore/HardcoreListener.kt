@@ -40,7 +40,7 @@ class HardcoreListener : Listener {
             if (System.currentTimeMillis() > user.stats.last().timeToRespawn && user.lastServerTime < user.stats.last().timeToRespawn && event.player.gameMode == GameMode.SPECTATOR) {
                 spawnPlayer(event.player)
             }
-            if (System.currentTimeMillis() < user.stats.last().timeToRespawn) {
+            if (System.currentTimeMillis() < user.stats.last().timeToRespawn && !event.player.isDead) {
                 respawnTask(user, event.player)
             }
             user = updateLastServerTime(user)
