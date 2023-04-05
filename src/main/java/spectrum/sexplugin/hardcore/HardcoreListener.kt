@@ -16,6 +16,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.PlayerRespawnEvent
 import org.litote.kmongo.findOne
 import org.litote.kmongo.replaceOneById
 import spectrum.sexplugin.SexPlugin
@@ -89,6 +90,16 @@ class HardcoreListener : Listener {
         )
         Mongo.UserStatistics.replaceOneById(user._id, user)
         //Game Logic
+    }
+    @EventHandler
+    fun onPlayerRespawn(event: PlayerRespawnEvent)
+    {
+        val user = Mongo.UserStatistics.findOne(eq("username", event.player.name))
+        if (user == null) {
+            event.player.gameMode = GameMode.SURVIVAL
+            event.player.spawnAt(Location(Bukkit.getWorld(event.player.name), 0.0, 80.0, 0.0))
+            return
+        }
         respawnTask(user, event.player)
     }
 
