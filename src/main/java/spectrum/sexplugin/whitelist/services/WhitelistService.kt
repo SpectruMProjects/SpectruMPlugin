@@ -1,6 +1,6 @@
 package spectrum.sexplugin.whitelist.services
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import spectrum.sexplugin.SexPlugin
@@ -16,7 +16,7 @@ interface WhitelistService {
         private val api: spectrum.sexplugin.whitelist.Api
     ): WhitelistService {
         override fun onPlayerJoin(player: Player) {
-            runBlocking {
+            SexPlugin.defaultScope.launch {
                 if (!api.hasPlayerAccess(player.name)) {
                     player.kick(Component.text(SexPlugin.plugin.config.getString("kickstring")!!))
                     SexPlugin.plugin.logger.info("${player.name} не прошёл")
