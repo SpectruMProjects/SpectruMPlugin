@@ -36,12 +36,18 @@ class HardcoreListener : Listener {
                     ObjectId.get(), event.player.name, 0, System.currentTimeMillis(), emptyList<Stat>().toMutableList(), false
                 )
             )
-        } else {
-            if (System.currentTimeMillis() > user.stats.last().timeToRespawn && user.lastServerTime < user.stats.last().timeToRespawn && event.player.gameMode == GameMode.SPECTATOR) {
-                spawnPlayer(event.player, user)
+            user = Mongo.UserStatistics.findOne(eq("username", event.player.name))
+            if(event.player.gameMode == GameMode.SPECTATOR){
+                spawnPlayer(event.player, user!!)
             }
-            if (System.currentTimeMillis() < user.stats.last().timeToRespawn && !event.player.isDead) {
-                respawnTask(user, event.player)
+        } else {
+            if(user.stats.size > 0) {
+                if (System.currentTimeMillis() > user.stats.last().timeToRespawn && user.lastServerTime < user.stats.last().timeToRespawn && event.player.gameMode == GameMode.SPECTATOR) {
+                    spawnPlayer(event.player, user)
+                }
+                if (System.currentTimeMillis() < user.stats.last().timeToRespawn && !event.player.isDead) {
+                    respawnTask(user, event.player)
+                }
             }
             user = updateLastServerTime(user)
             Mongo.UserStatistics.replaceOneById(user._id, user)
@@ -76,8 +82,8 @@ class HardcoreListener : Listener {
                     is TranslatableComponent -> {
                         deathReason = it.key()
                     }
-                    is TextComponent -> {
-                        deathIssuer = it.text
+                    is net.kyori.adventure.text.TextComponent -> {
+                        deathIssuer = it.content()
                     }
                 }
             }

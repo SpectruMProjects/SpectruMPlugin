@@ -6,7 +6,7 @@
 
     <groupId>spectrum</groupId>
     <artifactId>SexPlugin</artifactId>
-    <version>1.0-Pre-release</version>
+    <version>1.1-Pre-release</version>
     <packaging>jar</packaging>
 
     <name>SexPlugin</name>
@@ -145,6 +145,11 @@
             <artifactId>kotlin-test</artifactId>
             <version>${kotlin.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
         </dependency>
     </dependencies>
 </project>
