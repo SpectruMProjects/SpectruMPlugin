@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.commands.ResetTimeHandler
+import spectrum.sexplugin.hardcore.commands.RespawnHandler
 import spectrum.sexplugin.hardcore.commands.ShowStatsHandler
 import spectrum.sexplugin.hardcore.models.DatabaseData
 
@@ -26,5 +27,6 @@ object HardcoreModule {
         plugin.registerEventListener(HardcoreListener())
         plugin.getCommand("resettime")!!.setExecutor(ResetTimeHandler())
         plugin.getCommand("showstats")!!.setExecutor(ShowStatsHandler())
+        plugin.getCommand("respawn")!!.setExecutor(RespawnHandler())
     }
 }
