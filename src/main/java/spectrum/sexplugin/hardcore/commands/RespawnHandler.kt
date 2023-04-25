@@ -1,7 +1,6 @@
 package spectrum.sexplugin.hardcore.commands
 
 import com.mongodb.client.model.Filters.eq
-import net.kyori.adventure.bossbar.BossBar
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.command.Command
