@@ -22,7 +22,7 @@ import org.litote.kmongo.replaceOneById
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.models.Stat
 import spectrum.sexplugin.hardcore.models.UserStatistics
-import java.awt.TextComponent
+import spectrum.sexplugin.repo.Mongo
 import java.time.Duration
 
 class HardcoreListener : Listener {

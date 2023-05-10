@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 import org.litote.kmongo.findOne
 import org.litote.kmongo.replaceOneById
 import org.litote.kmongo.updateOneById
-import spectrum.sexplugin.hardcore.Mongo
+import spectrum.sexplugin.repo.Mongo
 import spectrum.sexplugin.hardcore.models.UserStatistics
 
 
@@ -28,7 +28,7 @@ class RespawnHandler : CommandExecutor {
         }
         val newstats = user.stats
         val newlast = newstats.last().copy(timeToRespawn = System.currentTimeMillis())
-        newstats[newstats.size - 1] = newlast;
+        newstats[newstats.size - 1] = newlast
         val newuser = user.copy(stats = newstats)
         Mongo.UserStatistics.updateOneById(user._id, newuser)
         spawnPlayer(player, user)

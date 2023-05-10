@@ -5,7 +5,7 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import spectrum.sexplugin.hardcore.HardcoreModule
-import spectrum.sexplugin.menu.MenuModule
+import spectrum.sexplugin.hats.HatsModule
 import spectrum.sexplugin.whitelist.WhitelistModule
 
 class SexPlugin : JavaPlugin() {
@@ -29,7 +29,6 @@ class SexPlugin : JavaPlugin() {
         mainScope = CoroutineScope(MainDispatcher) + SupervisorJob()
         defaultScope = CoroutineScope(DefaultDispatcher) + SupervisorJob()
         initConfig()
-        registerEvents()
         init()
     }
 
@@ -47,13 +46,10 @@ class SexPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(listener, this)
     }
 
-    private fun registerEvents() {
-        MenuModule.eventListeners.forEach(::registerEventListener)
-    }
-
     private fun init() {
         WhitelistModule.init(this)
         HardcoreModule.init(this)
+        HatsModule.init(this)
     }
 }
 

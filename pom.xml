@@ -47,13 +47,13 @@
                             <goal>compile</goal>
                         </goals>
                     </execution>
-                    <execution>
+<!--                    <execution>
                         <id>test-compile</id>
                         <phase>test-compile</phase>
                         <goals>
                             <goal>test-compile</goal>
                         </goals>
-                    </execution>
+                    </execution> -->
                 </executions>
                 <configuration>
                     <jvmTarget>17</jvmTarget>
@@ -71,13 +71,13 @@
                             <goal>compile</goal>
                         </goals>
                     </execution>
-                    <execution>
+<!--                    <execution>
                         <id>testCompile</id>
                         <phase>test-compile</phase>
                         <goals>
                             <goal>testCompile</goal>
                         </goals>
-                    </execution>
+                    </execution> -->
                 </executions>
                 <configuration>
                     <source>${java.version}</source>
@@ -139,12 +139,6 @@
             <groupId>io.ktor</groupId>
             <artifactId>ktor-client-cio-jvm</artifactId>
             <version>2.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

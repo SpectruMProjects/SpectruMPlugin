@@ -1,12 +1,13 @@
 package spectrum.sexplugin.whitelist
 
+import spectrum.sexplugin.Module
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.whitelist.listenrers.JoinListener
 import spectrum.sexplugin.whitelist.services.WhitelistService
 
-object WhitelistModule {
-    fun init(plugin: SexPlugin) {
-        val logger = plugin.getLogger()
+object WhitelistModule : Module {
+    override fun init(plugin: SexPlugin) {
+        val logger = plugin.logger
         val url = plugin.config.getString("url")!!
         val api = Api(url)
         val service = WhitelistService.Api(api)

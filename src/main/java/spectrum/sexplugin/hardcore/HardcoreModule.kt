@@ -2,16 +2,18 @@ package spectrum.sexplugin.hardcore
 
 import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
+import spectrum.sexplugin.Module
 import spectrum.sexplugin.SexPlugin
 import spectrum.sexplugin.hardcore.commands.ResetTimeHandler
 import spectrum.sexplugin.hardcore.commands.RespawnHandler
 import spectrum.sexplugin.hardcore.commands.ShowStatsHandler
 import spectrum.sexplugin.hardcore.models.DatabaseData
+import spectrum.sexplugin.repo.Mongo
 
-object HardcoreModule {
+object HardcoreModule : Module {
     private lateinit var plugin: SexPlugin
     lateinit var hardcoreConfig: ConfigurationSection
-    fun init(plugin: SexPlugin){
+    override fun init(plugin: SexPlugin){
         this.plugin = plugin
         val data = DatabaseData(
             plugin.config.getString("mongo-url")!!,

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.litote.kmongo.findOne
 import org.litote.kmongo.replaceOneById
-import spectrum.sexplugin.hardcore.Mongo
+import spectrum.sexplugin.repo.Mongo
 
 
 class ResetTimeHandler : CommandExecutor {

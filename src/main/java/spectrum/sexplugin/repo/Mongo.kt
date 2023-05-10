@@ -1,4 +1,4 @@
-package spectrum.sexplugin.hardcore
+package spectrum.sexplugin.repo
 
 import com.mongodb.client.MongoCollection
 import org.litote.kmongo.KMongo
