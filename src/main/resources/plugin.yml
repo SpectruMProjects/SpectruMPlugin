@@ -15,7 +15,3 @@ commands:
     description: Respawn died player
     usage: /<command> <player>
     permission: sexplugin.hardcorerespawn
-  openhats:
-    description: Open hats inventory
-    usage: /<command>
-    permission: sexplugin.openhats
