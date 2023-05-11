@@ -1,4 +1,4 @@
-package spectrum.sexplugin.hardcore.models
+package spectrum.sexplugin.repo
 
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId

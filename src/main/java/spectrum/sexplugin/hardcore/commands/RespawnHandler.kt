@@ -11,7 +11,7 @@ import org.litote.kmongo.findOne
 import org.litote.kmongo.replaceOneById
 import org.litote.kmongo.updateOneById
 import spectrum.sexplugin.repo.Mongo
-import spectrum.sexplugin.hardcore.models.UserStatistics
+import spectrum.sexplugin.repo.UserStatistics
 
 
 class RespawnHandler : CommandExecutor {

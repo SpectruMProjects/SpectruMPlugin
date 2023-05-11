@@ -20,8 +20,8 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import org.litote.kmongo.findOne
 import org.litote.kmongo.replaceOneById
 import spectrum.sexplugin.SexPlugin
-import spectrum.sexplugin.hardcore.models.Stat
-import spectrum.sexplugin.hardcore.models.UserStatistics
+import spectrum.sexplugin.repo.Stat
+import spectrum.sexplugin.repo.UserStatistics
 import spectrum.sexplugin.repo.Mongo
 import java.time.Duration
 
