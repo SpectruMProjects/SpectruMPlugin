@@ -5,7 +5,6 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import spectrum.sexplugin.hardcore.HardcoreModule
-import spectrum.sexplugin.hats.HatsModule
 import spectrum.sexplugin.repo.DatabaseData
 import spectrum.sexplugin.repo.Mongo
 import spectrum.sexplugin.whitelist.WhitelistModule
@@ -52,12 +51,10 @@ class SexPlugin : JavaPlugin() {
     private fun init() {
         WhitelistModule.init(this)
         HardcoreModule.init(this)
-        HatsModule.init(this)
         val data = DatabaseData(
             plugin.config.getString("mongo-url")!!,
             plugin.config.getString("mongo-db")!!,
-            "hardcore-stats",
-            "users"
+            "hardcore-stats"
         )
         Mongo.initMongoCollection(data)
     }
