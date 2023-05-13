@@ -18,8 +18,12 @@ interface WhitelistService {
         override fun onPlayerJoin(player: Player) {
             SexPlugin.defaultScope.launch {
                 if (!api.hasPlayerAccess(player.name)) {
-                    player.kick(Component.text(SexPlugin.plugin.config.getString("kickstring")!!))
+                    launch(SexPlugin.MainDispatcher) {
+                        player.kick(Component.text(SexPlugin.plugin.config.getString("kickstring")!!))
+                    }
                     SexPlugin.plugin.logger.info("${player.name} не прошёл")
+                }else{
+                    SexPlugin.plugin.logger.info("${player.name} прошёл")
                 }
             }
         }
